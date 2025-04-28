@@ -27,10 +27,10 @@ class CodeController:
             except Exception as e:
                 return jsonify(str(e)), 400
             
-        @self.app.route("/code/verify", methods=["POST"])
-        def codeVerify():
+        @self.app.route("/code/verify/<code>")
+        def codeVerify(code):
             try:
-                return jsonify(self.__service.verifyCodeSecurity(request.json)), 200
+                return jsonify(self.__service.verifyCodeSecurity({"code": code})), 200
                 
             except Exception as e:
                 return jsonify(str(e)), 400

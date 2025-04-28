@@ -42,8 +42,3 @@ Envia um código de 4 dígitos e retorna sua posição e avaliação de seguran�
 🔗 Endpoint:  
 [https://gustavosmd4codes.pythonanywhere.com/code/verify/1234](https://gustavosmd4codes.pythonanywhere.com/code/verify/1234)
 
-**Requisição:**
-```json
-{
-  "code": "1234"
-}
