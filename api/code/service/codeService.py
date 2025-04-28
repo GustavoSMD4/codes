@@ -16,5 +16,24 @@ class CodeService:
         codes = self.__conexao.getCodes()
         self.cache.setCodes(codes)
         return codes
+    
+    def verifyCodeSecurity(self, req: dict):
+        code: str = req.get("code")
+        
+        if not isinstance(code, str):
+            code = str(code)
+        
+        if code is None:
+            raise Exception("code empty")
+        
+        if len(code) != 4 or not code.isdigit():
+            raise Exception("code needs to have 4 digits")
+        
+        codeDb = self.__conexao.getCodeByCode(code)
+        
+        return f"Your code is the number {codeDb.getId()} most used out of 10000."
+        
+        
+        
         
 

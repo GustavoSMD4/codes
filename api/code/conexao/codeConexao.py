@@ -16,6 +16,16 @@ class CodeConexao:
     def getCodes(self):
         self.__cursor.execute("SELECT * FROM CODES;")
         return [Code.newModel(code) for code in self.__formatar()]
+    
+    def getCodeById(self, id):
+        self.__cursor.execute("SELECT * FROM CODES WHERE ID = ?;", (id, ))
+        codes = self.__formatar()
+        return Code.newModel(codes[0])
+    
+    def getCodeByCode(self, code):
+        self.__cursor.execute("SELECT * FROM CODES WHERE CODE = ?;", (code, ))
+        codes = self.__formatar()
+        return Code.newModel(codes[0])
         
     def __formatar(self):
         headers = [desc[0].lower() for desc in self.__cursor.description]

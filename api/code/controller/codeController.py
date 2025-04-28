@@ -1,5 +1,4 @@
-
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 from api.code.service.codeService import CodeService
 from cache.cache import Cache
@@ -24,6 +23,14 @@ class CodeController:
                 
                 codes = self.__service.getCodes()
                 return jsonify([code.getDict() for code in codes]), 200
+                
+            except Exception as e:
+                return jsonify(str(e)), 400
+            
+        @self.app.route("/code/verify", methods=["POST"])
+        def codeVerify():
+            try:
+                return jsonify(self.__service.verifyCodeSecurity(request.json)), 200
                 
             except Exception as e:
                 return jsonify(str(e)), 400
