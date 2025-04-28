@@ -1,6 +1,6 @@
 # 🔐 Verificador de Códigos - API
 
-API simples para listar códigos numéricos de 4 dígitos e verificar a posição de um código entre os 10.000 possíveis (0000 a 9999).
+API simples para listar códigos numéricos de 4 dígitos e verificar a posição de um código entre os 10.000 possíveis.
 
 ---
 
