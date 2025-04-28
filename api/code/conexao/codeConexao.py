@@ -17,6 +17,14 @@ class CodeConexao:
         self.__cursor.execute("SELECT * FROM CODES;")
         return [Code.newModel(code) for code in self.__formatar()]
     
+    def getCodesLimit(self, limit, top = True):
+        if top:
+            self.__cursor.execute("SELECT * FROM CODES LIMIT ?;", (limit, ))
+            return [Code.newModel(code) for code in self.__formatar()]
+        else:
+            self.__cursor.execute("SELECT * FROM CODES ORDER BY ID DESC LIMIT ?;", (limit, ))
+            return [Code.newModel(code) for code in self.__formatar()]
+    
     def getCodeById(self, id):
         self.__cursor.execute("SELECT * FROM CODES WHERE ID = ?;", (id, ))
         codes = self.__formatar()

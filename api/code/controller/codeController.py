@@ -34,4 +34,20 @@ class CodeController:
                 
             except Exception as e:
                 return jsonify(str(e)), 400
+            
+        @self.app.route("/codes/first/<int:limit>")
+        def getCodesLimitFirst(limit):
+            try:
+                return jsonify([code.getDict() for code in self.__service.getCodesLimitFirst({"limit": limit})]), 200
+                
+            except Exception as e:
+                return jsonify(str(e)), 400
+            
+        @self.app.route("/codes/last/<int:limit>")
+        def getCodesLimitLast(limit):
+            try:
+                return jsonify([code.getDict() for code in self.__service.getCodesLimitLast({"limit": limit})]), 200
+                
+            except Exception as e:
+                return jsonify(str(e)), 400
 

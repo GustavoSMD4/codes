@@ -17,9 +17,41 @@ class CodeService:
         self.cache.setCodes(codes)
         return codes
     
-    def verifyCodeSecurity(self, req: dict):
-        code: str = req.get("code")
+    def getCodesLimitFirst(self, req: dict):
+        limit = req.get("limit")
         
+        if not isinstance(limit, int):
+            limit = int(limit)
+            
+        if limit > 10000 or limit <= 0:
+            raise Exception("limit needs to be between 1 and 10000")
+        
+        return self.__conexao.getCodesLimit(limit)
+    
+    def getCodesLimitLast(self, req: dict):
+        limit = req.get("limit")
+        
+        if not isinstance(limit, int):
+            limit = int(limit)
+            
+        if limit > 10000 or limit <= 0:
+            raise Exception("limit needs to be between 1 and 10000")
+        
+        return self.__conexao.getCodesLimit(limit, False)
+        
+    
+    def verifyCodeSecurity(self, req: dict):        
+        code: str = self.__validateCode(req.get("code"))
+        
+        codeDb = self.__conexao.getCodeByCode(code)
+        
+        return f"Your code is the number {codeDb.getId()} most used out of 10000."
+    
+    def simulateBruteForce(self, req: dict):
+        code: str = self.__validateCode(req.get("code"))
+    
+    @staticmethod
+    def __validateCode(code):
         if not isinstance(code, str):
             code = str(code)
         
@@ -29,10 +61,8 @@ class CodeService:
         if len(code) != 4 or not code.isdigit():
             raise Exception("code needs to have 4 digits")
         
-        codeDb = self.__conexao.getCodeByCode(code)
-        
-        return f"Your code is the number {codeDb.getId()} most used out of 10000."
-        
+        return code
+    
         
         
         
