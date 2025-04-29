@@ -1,4 +1,4 @@
-# 🔐 DB com senhas de 4 dígitos(somente números de 0 a 9) - API
+# 🔐 DB com senhas de 4 dígitos (somente números de 0 a 9) - API
 
 ---
 
@@ -53,3 +53,23 @@ Envia um código de 4 dígitos e retorna sua posição e avaliação de seguran�
 🔗 Endpoint:  
 [https://gustavosmd4codes.pythonanywhere.com/code/verify/1234](https://gustavosmd4codes.pythonanywhere.com/code/verify/1234)
 
+---
+
+### 🏆 Sugerir código seguro ou comum
+
+**GET** `/code/suggest?safe=<True/False>`  
+Este endpoint sugere um código baseado no parâmetro `safe`. Se `safe=True`, retorna um código **menos comum** (menos usado). Se `safe=False`, retorna um código **mais comum** (mais usado).
+
+#### Parâmetros:
+- `safe`: Um valor booleano (`True` ou `False`). O padrão é `True`.
+  - `True`: Retorna um código menos comum (seguro).
+  - `False`: Retorna um código mais comum.
+
+🔗 Exemplo:
+- **URL**: [https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True](https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True)
+- **Resposta**:
+```json
+{
+  "suggested_code": "1111",
+  "frequency": 50
+}

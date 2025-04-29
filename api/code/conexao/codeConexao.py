@@ -46,6 +46,14 @@ class CodeConexao:
         codes = self.__formatar()
         return Code.newModel(codes[0])
         
+    def suggestCode(self, safe = True):
+        if safe:
+            self.__cursor.execute("SELECT * FROM CODES ORDER BY ID DESC LIMIT 500;")
+            return self.__formatar()
+        else:
+            self.__cursor.execute("SELECT * FROM CODES LIMIT 500;")
+            return self.__formatar()
+        
     def __formatar(self):
         headers = [desc[0].lower() for desc in self.__cursor.description]
         dadosFormatados = [dict(zip(headers, data)) for data in self.__cursor.fetchall()]

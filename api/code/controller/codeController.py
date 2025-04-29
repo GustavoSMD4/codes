@@ -59,3 +59,11 @@ class CodeController:
             except Exception as e:
                 return jsonify(str(e)), 400
 
+        @self.app.route("/code/suggest")
+        def suggestCode():
+            try:
+                code = self.__service.suggestCode({"safe": request.args.get("safe")})
+                return jsonify(code.getCode()), 200
+                
+            except Exception as e:
+                return jsonify(str(e)), 400

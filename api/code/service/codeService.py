@@ -1,5 +1,6 @@
-
+import random
 from api.code.conexao.codeConexao import CodeConexao
+from api.code.models.codeModel import Code
 from cache.cache import Cache
 
 
@@ -48,6 +49,19 @@ class CodeService:
     
     def getStats(self):
         return self.__conexao.stats()
+    
+    def suggestCode(self, req: dict):
+        safe = req.get("safe")
+        
+        if safe == "True":
+            safe = True
+        elif safe == "False":
+            safe = False
+        else:
+            raise Exception("param safe needs to be True or False.")
+        
+        codes = self.__conexao.suggestCode(safe)
+        return Code.newModel(random.choice(codes))
     
     def simulateBruteForce(self, req: dict):
         code: str = self.__validateCode(req.get("code"))
