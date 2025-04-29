@@ -4,8 +4,6 @@
 
 ## 🚀 Endpoints
 
-### 📄 Listar todos os códigos
-
 ### 📊 Estatísticas gerais  
 **GET** `/stats`  
 Retorna estatísticas gerais do banco de dados, incluindo:  
@@ -16,6 +14,10 @@ Retorna estatísticas gerais do banco de dados, incluindo:
 
 🔗 Exemplo:  
 [https://gustavosmd4codes.pythonanywhere.com/stats](https://gustavosmd4codes.pythonanywhere.com/stats)
+
+---
+
+### 📄 Listar todos os códigos
 
 **GET** `/codes`  
 Retorna todos os códigos disponíveis.  
