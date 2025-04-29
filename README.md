@@ -67,9 +67,4 @@ Este endpoint sugere um código baseado no parâmetro `safe`. Se `safe=True`, re
 
 🔗 Exemplo:
 - **URL**: [https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True](https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True)
-- **Resposta**:
-```json
-{
-  "suggested_code": "1111",
-  "frequency": 50
-}
+
