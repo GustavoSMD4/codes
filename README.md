@@ -1,12 +1,21 @@
-# 🔐 Verificador de Códigos - API
-
-API simples para listar códigos numéricos de 4 dígitos e verificar a posição de um código entre os 10.000 possíveis.
+# 🔐 DB com senhas de 4 dígitos(somente números de 0 a 9) - API
 
 ---
 
 ## 🚀 Endpoints
 
 ### 📄 Listar todos os códigos
+
+### 📊 Estatísticas gerais  
+**GET** `/stats`  
+Retorna estatísticas gerais do banco de dados, incluindo:  
+
+- 🔢 **Total de senhas**: Soma total das quantidades de uso dos códigos.  
+- 🥇 **Código mais usado**: O código com maior quantidade registrada.  
+- 🥄 **Código menos usado**: O código com menor quantidade registrada.  
+
+🔗 Exemplo:  
+[https://gustavosmd4codes.pythonanywhere.com/stats](https://gustavosmd4codes.pythonanywhere.com/stats)
 
 **GET** `/codes`  
 Retorna todos os códigos disponíveis.  
@@ -17,7 +26,7 @@ Retorna todos os códigos disponíveis.
 ### 🥇 Listar os primeiros códigos
 
 **GET** `/codes/first/<quantidade>`  
-Retorna os primeiros `<quantidade>` códigos com base na ordem crescente.
+Retorna os primeiros `<quantidade>` códigos.
 
 🔗 Exemplo:  
 [https://gustavosmd4codes.pythonanywhere.com/codes/first/10](https://gustavosmd4codes.pythonanywhere.com/codes/first/10)
@@ -27,7 +36,7 @@ Retorna os primeiros `<quantidade>` códigos com base na ordem crescente.
 ### 🏁 Listar os últimos códigos
 
 **GET** `/codes/last/<quantidade>`  
-Retorna os últimos 10 códigos pela maior posição.
+Retorna os últimos `<quantidade>` códigos.
 
 🔗 Exemplo:  
 [https://gustavosmd4codes.pythonanywhere.com/codes/last/10](https://gustavosmd4codes.pythonanywhere.com/codes/last/10)

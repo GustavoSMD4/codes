@@ -15,6 +15,14 @@ class CodeController:
         return cls(app, CodeService.newService(cache), cache).routes()
     
     def routes(self):
+        @self.app.route("/stats")
+        def stats():
+            try:
+                return jsonify(self.__service.getStats()[0]), 200
+                
+            except Exception as e:
+                return jsonify(str(e)), 400
+        
         @self.app.route("/codes")
         def getCodes():
             try:

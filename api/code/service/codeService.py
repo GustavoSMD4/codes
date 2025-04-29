@@ -38,14 +38,16 @@ class CodeService:
             raise Exception("limit needs to be between 1 and 10000")
         
         return self.__conexao.getCodesLimit(limit, False)
-        
-    
+         
     def verifyCodeSecurity(self, req: dict):        
         code: str = self.__validateCode(req.get("code"))
         
         codeDb = self.__conexao.getCodeByCode(code)
         
         return f"Your code is the number {codeDb.getId()} most used out of 10000."
+    
+    def getStats(self):
+        return self.__conexao.stats()
     
     def simulateBruteForce(self, req: dict):
         code: str = self.__validateCode(req.get("code"))

@@ -13,6 +13,17 @@ class CodeConexao:
     def newConexao(cls):
         return cls()
     
+    def stats(self):
+        self.__cursor.execute("""
+            SELECT 
+                SUM(QTDE) AS "Total passwords",
+                (SELECT CODE FROM CODES ORDER BY QTDE ASC LIMIT 1) AS "Least used password",
+                (SELECT CODE FROM CODES ORDER BY QTDE DESC LIMIT 1) AS "Most used password"
+            FROM CODES;                     
+        """)
+        
+        return self.__formatar()
+    
     def getCodes(self):
         self.__cursor.execute("SELECT * FROM CODES;")
         return [Code.newModel(code) for code in self.__formatar()]
