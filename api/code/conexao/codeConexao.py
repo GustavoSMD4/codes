@@ -16,9 +16,9 @@ class CodeConexao:
     def stats(self):
         self.__cursor.execute("""
             SELECT 
-                SUM(QTDE) AS "Total passwords",
-                (SELECT CODE FROM CODES ORDER BY QTDE ASC LIMIT 1) AS "Least used password",
-                (SELECT CODE FROM CODES ORDER BY QTDE DESC LIMIT 1) AS "Most used password"
+                SUM(QTDE) AS "sum_total_passwords",
+                (SELECT CODE FROM CODES ORDER BY QTDE ASC LIMIT 1) AS "least_used_password",
+                (SELECT CODE FROM CODES ORDER BY QTDE DESC LIMIT 1) AS "most_used_password"
             FROM CODES;                     
         """)
         
