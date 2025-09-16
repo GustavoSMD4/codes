@@ -1,4 +1,5 @@
-from io import BytesIO
+import csv
+from io import BytesIO, StringIO
 import random
 
 from openpyxl import Workbook
@@ -68,6 +69,9 @@ class CodeService:
         return Code.newModel(random.choice(codes))
     
     def gerarPlanilha(self, digits = None):
+        if not isinstance(digits, int):
+            digits = int(digits)
+        
         if digits is None:
             digits = 3
             
@@ -75,17 +79,20 @@ class CodeService:
         vistos = set()
         resultado = []
 
-        for code in codes:
-            prefixo = code.getCode()[:digits]
-            if prefixo not in vistos:
-                vistos.add(prefixo)
-                resultado.append(prefixo)
+        if digits >= 4:
+            raise Exception("To download the full db, use /codes/csv")
+            
+        else:
+            for code in codes:
+                prefixo = code.getCode()[:digits]
+                if prefixo not in vistos:
+                    vistos.add(prefixo)
+                    resultado.append(prefixo)
                 
         wb = Workbook()
         ws = wb.active
         ws.title = "codigos"
 
-        # Cabeçalhos
         ws.append(["codigo", "feito"])
 
         checkValidation = DataValidation(type="list", formula1='"TRUE,FALSE"', allow_blank=True)
@@ -102,6 +109,20 @@ class CodeService:
         output.seek(0)
         return output
     
+    def gerarCSVCompleto(self):
+        codes = self.__conexao.getCodes()
+        registros = [code.getDict() for code in codes]
+
+        buffer_str = StringIO()
+        writer = csv.DictWriter(buffer_str, fieldnames=registros[0].keys(), delimiter=";")
+        writer.writeheader()
+        writer.writerows(registros)
+
+        output = BytesIO()
+        output.write(buffer_str.getvalue().encode("utf-8"))
+        output.seek(0)
+        return output
+        
     def simulateBruteForce(self, req: dict):
         code: str = self.__validateCode(req.get("code"))
     

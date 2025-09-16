@@ -69,13 +69,23 @@ class CodeController:
             except Exception as e:
                 return jsonify(str(e)), 400
 
-        @self.app.route("/codes/planilha/<int:digits>")
+        @self.app.route("/codes/planilha/<digits>")
         def gerarPlanilha(digits):
             try:
                 arquivo = self.__service.gerarPlanilha(digits)
                 base64Excel = base64.b64encode(arquivo.read()).decode("utf-8")
                 return render_template("download.html", base64Excel=base64Excel)
                 
+            except Exception as e:
+                return jsonify(str(e)), 400
+            
+        @self.app.route("/codes/csv")
+        def gerarCSV():
+            try:
+                arquivo = self.__service.gerarCSVCompleto()
+                base64CSV = base64.b64encode(arquivo.read()).decode("utf-8")
+                return render_template("download_csv.html", base64CSV=base64CSV)
+
             except Exception as e:
                 return jsonify(str(e)), 400
 
