@@ -21,7 +21,8 @@ Retorna estatísticas gerais do banco de dados, incluindo:
 
 **GET** `/codes`  
 Retorna todos os códigos disponíveis.  
-🔗 [https://gustavosmd4codes.pythonanywhere.com/codes](https://gustavosmd4codes.pythonanywhere.com/codes)
+🔗 Exemplo:  
+[https://gustavosmd4codes.pythonanywhere.com/codes](https://gustavosmd4codes.pythonanywhere.com/codes)
 
 ---
 
@@ -50,7 +51,7 @@ Retorna os últimos `<quantidade>` códigos.
 **GET** `/code/verify/<code>`  
 Envia um código de 4 dígitos e retorna sua posição e avaliação de segurança.
 
-🔗 Endpoint:  
+🔗 Exemplo:  
 [https://gustavosmd4codes.pythonanywhere.com/code/verify/1234](https://gustavosmd4codes.pythonanywhere.com/code/verify/1234)
 
 ---
@@ -65,6 +66,35 @@ Este endpoint sugere um código baseado no parâmetro `safe`. Se `safe=True`, re
   - `True`: Retorna um código menos comum (seguro).
   - `False`: Retorna um código mais comum.
 
-🔗 Exemplo:
-- **URL**: [https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True](https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True)
+🔗 Exemplo:  
+[https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True](https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True)
 
+---
+
+### 📊 Gerar planilha Excel filtrada por prefixo
+
+**GET** `/codes/planilha/<digits>`  
+Gera uma planilha Excel (`.xlsx`) contendo os códigos filtrados pelo prefixo dos primeiros dígitos informados.
+
+- O parâmetro `<digits>` aceita apenas os valores **1**, **2** ou **3**.
+- A planilha traz os prefixos únicos desses dígitos.
+
+🔗 Exemplo:  
+[https://gustavosmd4codes.pythonanywhere.com/codes/planilha/3](https://gustavosmd4codes.pythonanywhere.com/codes/planilha/3)
+
+---
+
+### 📄 Gerar CSV completo com todos os códigos
+
+**GET** `/codes/csv`  
+Gera um arquivo CSV com todos os códigos e suas informações, usando ponto e vírgula (`;`) como separador.
+
+- O arquivo é entregue via download automático.
+
+🔗 Exemplo:  
+[https://gustavosmd4codes.pythonanywhere.com/codes/csv](https://gustavosmd4codes.pythonanywhere.com/codes/csv)
+
+---
+
+🌐 URL base da API:  
+[https://gustavosmd4codes.pythonanywhere.com](https://gustavosmd4codes.pythonanywhere.com)
