@@ -75,6 +75,9 @@ class CodeService:
         if digits is None:
             digits = 3
             
+        if digits not in [1, 2, 3]:
+            raise Exception("digits must be 1, 2 or 3")
+            
         codes = self.__conexao.getCodes()
         vistos = set()
         resultado = []
