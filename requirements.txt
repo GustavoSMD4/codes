@@ -1,3 +1,4 @@
 db-sqlite3
 flask[async]
 flask_cors
+openpyxl

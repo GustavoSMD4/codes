@@ -1,4 +1,8 @@
+from io import BytesIO
 import random
+
+from openpyxl import Workbook
+from openpyxl.worksheet.datavalidation import DataValidation
 from api.code.conexao.codeConexao import CodeConexao
 from api.code.models.codeModel import Code
 from cache.cache import Cache
@@ -12,6 +16,9 @@ class CodeService:
     @classmethod
     def newService(cls, cache = None):
         return cls(CodeConexao.newConexao(), cache)
+    
+    def getStats(self):
+        return self.__conexao.stats()
     
     def getCodes(self):
         codes = self.__conexao.getCodes()
@@ -47,9 +54,6 @@ class CodeService:
         
         return f"Your code is the number {codeDb.getId()} most used out of 10000."
     
-    def getStats(self):
-        return self.__conexao.stats()
-    
     def suggestCode(self, req: dict):
         safe = req.get("safe")
         
@@ -62,6 +66,41 @@ class CodeService:
         
         codes = self.__conexao.suggestCode(safe)
         return Code.newModel(random.choice(codes))
+    
+    def gerarPlanilha(self, digits = None):
+        if digits is None:
+            digits = 3
+            
+        codes = self.__conexao.getCodes()
+        vistos = set()
+        resultado = []
+
+        for code in codes:
+            prefixo = code.getCode()[:digits]
+            if prefixo not in vistos:
+                vistos.add(prefixo)
+                resultado.append(prefixo)
+                
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "codigos"
+
+        # Cabeçalhos
+        ws.append(["codigo", "feito"])
+
+        checkValidation = DataValidation(type="list", formula1='"TRUE,FALSE"', allow_blank=True)
+        ws.add_data_validation(checkValidation)
+
+        for index, codigo in enumerate(resultado, start=2):
+            ws[f"A{index}"] = codigo
+            cellCheck = f"B{index}"
+            checkValidation.add(ws[cellCheck])
+            ws[cellCheck] = "FALSE"
+        
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+        return output
     
     def simulateBruteForce(self, req: dict):
         code: str = self.__validateCode(req.get("code"))

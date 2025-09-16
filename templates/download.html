@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Download</title>
+</head>
+<body>
+  <script>
+    window.onload = function () {
+      const base64Data = "{{ base64Excel }}";
+      const blob = new Blob(
+        [Uint8Array.from(atob(base64Data), c => c.charCodeAt(0))], 
+        { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+      );
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "codigosFiltrados.xlsx";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+  </script>
+</body>
+</html>
