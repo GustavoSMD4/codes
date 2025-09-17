@@ -114,7 +114,29 @@ Gera uma visualização interativa (HTML) com:
 
 ---
 
+### 🔥 Heatmap de dígitos por posição (intervalo)
+
+**GET** `/codes/stats/between/<start>/<end>`  
+Gera uma visualização interativa (HTML) semelhante ao endpoint de limite, mas para códigos no intervalo entre `<start>` e `<end>` (inclusive).
+
+- Aceita dois parâmetros inteiros:
+  - `<start>`: código inicial do intervalo (ex: 1000)
+  - `<end>`: código final do intervalo (ex: 2000)
+- Retorna estatísticas e heatmap dos códigos cujo valor está entre `<start>` e `<end>`.
+- O heatmap exibe:
+  - Frequência dos dígitos por posição (imagem)
+  - Porcentagens relativas por dígito e posição
+  - Dígitos mais comuns por posição
+  - Estatísticas como total de códigos no intervalo, total de ocorrências, código mais frequente e porcentagem sobre o total do banco
+
+#### Regras:
+- `<start>` deve ser menor ou igual a `<end>`. Caso contrário, retorna erro 400.
+
+🔗 Exemplo:  
+[https://gustavosmd4codes.pythonanywhere.com/codes/stats/between/1000/2000](https://gustavosmd4codes.pythonanywhere.com/codes/stats/between/1000/2000)
+
+---
+
 ## 🌐 URL base da API
 
 [https://gustavosmd4codes.pythonanywhere.com](https://gustavosmd4codes.pythonanywhere.com)
-s
