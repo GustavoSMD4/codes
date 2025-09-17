@@ -88,4 +88,25 @@ class CodeController:
 
             except Exception as e:
                 return jsonify(str(e)), 400
+            
+        @self.app.route("/codes/stats/<int:limit>")
+        def gerarHeatmap(limit):
+            try:
+                info = self.__service.generateHeatmapData(limit)
+
+                return render_template(
+                    'heatmap.html',
+                    heatmap=info["imageBase64"],
+                    frequency=info["frequency"],
+                    percent=info["percent"],
+                    totalCodes=info["totalCodes"],
+                    totalOccurrences=info["totalOccurrences"],
+                    mostFrequentCode=info["mostFrequentCode"],
+                    mostFrequentQtde=info["mostFrequentQtde"],
+                    mostCommonDigits=info["mostCommonDigits"],
+                    passwordPercent=info["passwordPercent"],
+                    limit=limit
+                )
+            except Exception as e:
+                return jsonify(str(e)), 400
 

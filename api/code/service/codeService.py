@@ -1,7 +1,12 @@
+import base64
 import csv
 from io import BytesIO, StringIO
+import io
 import random
-
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 from openpyxl import Workbook
 from openpyxl.worksheet.datavalidation import DataValidation
 from api.code.conexao.codeConexao import CodeConexao
@@ -125,6 +130,77 @@ class CodeService:
         output.write(buffer_str.getvalue().encode("utf-8"))
         output.seek(0)
         return output
+       
+    def generateHeatmapData(self, limit):
+        freq = np.zeros((10, 4), dtype=int)
+        codes = self.getCodesLimitFirst({"limit": limit})
+
+        totalCounts = 0
+        maxCode = None
+        maxQtde = 0
+        
+        for code in codes:
+            codeStr = code.getCode()
+            qtde = code.getQtde()
+            totalCounts += qtde
+            
+            if qtde > maxQtde:
+                maxQtde = qtde
+                maxCode = codeStr
+            
+            for pos, char in enumerate(codeStr):
+                digit = int(char)
+                freq[digit, pos] += qtde
+
+        percent = np.zeros_like(freq, dtype=float)
+        for pos in range(4):
+            colSum = freq[:, pos].sum()
+            if colSum > 0:
+                percent[:, pos] = freq[:, pos] / colSum * 100
+
+        mostCommonDigits = []
+        for pos in range(4):
+            col = freq[:, pos]
+            mostCommonDigit = int(np.argmax(col))
+            mostCommonDigits.append(mostCommonDigit)
+
+        totalOccurrencesAll = sum(code.getQtde() or 1 for code in self.__conexao.getCodes())
+        passwordPercent = (totalCounts / totalOccurrencesAll)*100
+
+        fig, ax = plt.subplots(figsize=(6, 4))
+        cax = ax.imshow(freq, cmap='YlGnBu', aspect='auto')
+        ax.set_xticks(np.arange(4))
+        ax.set_yticks(np.arange(10))
+        ax.set_xticklabels(['1ª posição', '2ª posição', '3ª posição', '4ª posição'])
+        ax.set_yticklabels([str(i) for i in range(10)])
+        
+        for i in range(10):
+            for j in range(4):
+                ax.text(j, i, freq[i, j], ha='center', va='center', color='black')
+        
+        ax.set_xlabel('Posição do Dígito')
+        ax.set_ylabel('Dígito')
+        ax.set_title(f'Frequência dos Dígitos (primeiros {limit} códigos)')
+        fig.colorbar(cax, ax=ax, orientation='vertical', label='Frequência')
+
+        buf = io.BytesIO()
+        plt.tight_layout()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        imgBase64 = base64.b64encode(buf.read()).decode('utf-8')
+        plt.close(fig)
+        
+        return {
+            "imageBase64": imgBase64,
+            "frequency": freq.tolist(),
+            "percent": percent.tolist(),
+            "totalCodes": len(codes),
+            "totalOccurrences": totalCounts,
+            "mostFrequentCode": maxCode,
+            "mostFrequentQtde": maxQtde,
+            "mostCommonDigits": mostCommonDigits,
+            "passwordPercent": passwordPercent
+        }
         
     def simulateBruteForce(self, req: dict):
         code: str = self.__validateCode(req.get("code"))

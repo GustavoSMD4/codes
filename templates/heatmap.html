@@ -1,0 +1,169 @@
+<!DOCTYPE html> 
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Heatmap de Códigos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f7fafc;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e1e8f0;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+        }
+        tr:hover {
+            background-color: #f1f8ff;
+        }
+        .stats {
+            margin-top: 20px;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .stat-box {
+            background: #ecf0f1;
+            padding: 15px 25px;
+            border-radius: 8px;
+            flex: 1 1 200px;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+        }
+        .stat-box strong {
+            display: block;
+            font-size: 20px;
+            color: #2980b9;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Heatmap de Frequência dos Dígitos</h1>
+        <h2>Primeiros {{limit}} códigos analisados</h2>
+        <img src="data:image/png;base64,{{heatmap}}" alt="Heatmap de Frequência" />
+
+        <div class="stats">
+            <div class="stat-box">
+                <strong>Total de Códigos</strong>
+                {{totalCodes}}
+            </div>
+            <div class="stat-box">
+                <strong>Total de Ocorrências</strong>
+                {{totalOccurrences}}
+            </div>
+            <div class="stat-box">
+                <strong>Porcentagem das Senhas (%)</strong>
+                {{ "%.2f"|format(passwordPercent) }}%
+            </div>
+            <div class="stat-box">
+                <strong>Código Mais Frequente</strong>
+                {{mostFrequentCode}}
+            </div>
+            <div class="stat-box">
+                <strong>Ocorrências do Código Mais Frequente</strong>
+                {{mostFrequentQtde}}
+            </div>
+        </div>
+
+        <h2>Porcentagem por Dígito e Posição (%)</h2>
+        <table id="percentTable">
+            <thead>
+                <tr>
+                    <th>Dígito</th>
+                    <th>1ª Posição</th>
+                    <th>2ª Posição</th>
+                    <th>3ª Posição</th>
+                    <th>4ª Posição</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for digit in range(10) %}
+                <tr>
+                    <td><strong>{{digit}}</strong></td>
+                    {% for pos in range(4) %}
+                    <td>{{ "%.2f"|format(percent[digit][pos]) }}%</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Dígito Mais Frequente por Posição</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Posição</th>
+                    <th>Dígito Mais Frequente</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pos in range(4) %}
+                <tr>
+                    <td>{{pos + 1}}ª Posição</td>
+                    <td>{{mostCommonDigits[pos]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const table = document.getElementById('percentTable');
+        const headers = table.querySelectorAll('th');
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+
+        headers.forEach((header, index) => {
+            if (index === 0) return;
+
+            header.style.cursor = 'pointer';
+
+            header.addEventListener('click', () => {
+                const sortedRows = rows.sort((a, b) => {
+                    const aVal = parseFloat(a.children[index].textContent.replace('%', ''));
+                    const bVal = parseFloat(b.children[index].textContent.replace('%', ''));
+                    return bVal - aVal;
+                });
+                sortedRows.forEach(row => tbody.appendChild(row));
+            });
+        });
+    </script>
+</body>
+</html>

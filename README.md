@@ -6,7 +6,7 @@
 
 ### 📊 Estatísticas gerais  
 **GET** `/stats`  
-Retorna estatísticas gerais do banco de dados, incluindo:  
+Retorna estatísticas gerais do banco de dados, incluindo:
 
 - 🔢 **Total de senhas**: Soma total das quantidades de uso dos códigos.  
 - 🥇 **Código mais usado**: O código com maior quantidade registrada.  
@@ -20,7 +20,8 @@ Retorna estatísticas gerais do banco de dados, incluindo:
 ### 📄 Listar todos os códigos
 
 **GET** `/codes`  
-Retorna todos os códigos disponíveis.  
+Retorna todos os códigos disponíveis.
+
 🔗 Exemplo:  
 [https://gustavosmd4codes.pythonanywhere.com/codes](https://gustavosmd4codes.pythonanywhere.com/codes)
 
@@ -59,12 +60,10 @@ Envia um código de 4 dígitos e retorna sua posição e avaliação de seguran�
 ### 🏆 Sugerir código seguro ou comum
 
 **GET** `/code/suggest?safe=<True/False>`  
-Este endpoint sugere um código baseado no parâmetro `safe`. Se `safe=True`, retorna um código **menos comum** (menos usado). Se `safe=False`, retorna um código **mais comum** (mais usado).
+Este endpoint sugere um código baseado no parâmetro `safe`. Se `safe=True`, retorna um código **menos comum** (mais seguro). Se `safe=False`, retorna um código **mais comum** (menos seguro).
 
 #### Parâmetros:
-- `safe`: Um valor booleano (`True` ou `False`). O padrão é `True`.
-  - `True`: Retorna um código menos comum (seguro).
-  - `False`: Retorna um código mais comum.
+- `safe`: Um valor booleano (`True` ou `False`).
 
 🔗 Exemplo:  
 [https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True](https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True)
@@ -96,5 +95,26 @@ Gera um arquivo CSV com todos os códigos e suas informações, usando ponto e v
 
 ---
 
-🌐 URL base da API:  
+### 🧠 Heatmap de dígitos por posição
+
+**GET** `/codes/stats/<limit>`  
+Gera uma visualização interativa (HTML) com:
+
+- 🔥 Heatmap de frequência dos dígitos por posição (imagem)
+- 📈 Porcentagens por dígito e posição
+- 🥇 Dígito mais frequente por posição
+- 📊 Estatísticas como:
+  - Total de códigos analisados
+  - Total de ocorrências somadas
+  - Código mais frequente e sua quantidade
+  - **Porcentagem das senhas** em relação ao total do banco
+
+🔗 Exemplo:  
+[https://gustavosmd4codes.pythonanywhere.com/codes/stats/1000](https://gustavosmd4codes.pythonanywhere.com/codes/stats/1000)
+
+---
+
+## 🌐 URL base da API
+
 [https://gustavosmd4codes.pythonanywhere.com](https://gustavosmd4codes.pythonanywhere.com)
+s
