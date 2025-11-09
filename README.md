@@ -135,8 +135,3 @@ Gera uma visualização interativa (HTML) semelhante ao endpoint de limite, mas 
 🔗 Exemplo:  
 [https://gustavosmd4codes.pythonanywhere.com/codes/stats/between/1000/2000](https://gustavosmd4codes.pythonanywhere.com/codes/stats/between/1000/2000)
 
----
-
-## 🌐 URL base da API
-
-[https://gustavosmd4codes.pythonanywhere.com](https://gustavosmd4codes.pythonanywhere.com)
