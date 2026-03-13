@@ -123,6 +123,50 @@ class CodeService:
         output.seek(0)
         return output
     
+    def gerarPlanilhaAlternado(self):
+        codes = self.__conexao.getCodes()
+        vistos = set()
+        resultado = []
+
+        for code in codes:
+            c = code.getCode()
+
+            if len(c) < 4:
+                continue
+
+            alternado = c[0] + c[2]  # 1º e 3º dígito
+
+            if alternado not in vistos:
+                vistos.add(alternado)
+                resultado.append(alternado)
+
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "codigos"
+
+        ws.append(["codigo_alternado(1 e 3 digito)", "feito"])
+
+        checkValidation = DataValidation(
+            type="list",
+            formula1='"TRUE,FALSE"',
+            allow_blank=True
+        )
+
+        ws.add_data_validation(checkValidation)
+
+        for index, codigo in enumerate(resultado, start=2):
+            ws[f"A{index}"] = codigo
+
+            cellCheck = f"B{index}"
+            checkValidation.add(ws[cellCheck])
+            ws[cellCheck] = "FALSE"
+
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        return output
+    
     def gerarCSVCompleto(self):
         codes = self.__conexao.getCodes()
         registros = [code.getDict() for code in codes]

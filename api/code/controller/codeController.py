@@ -79,6 +79,16 @@ class CodeController:
             except Exception as e:
                 return jsonify(str(e)), 400
             
+        @self.app.route("/codes/planilha/alternado")
+        def gerarPlanilhaAlternado():
+            try:
+                arquivo = self.__service.gerarPlanilhaAlternado()
+                base64Excel = base64.b64encode(arquivo.read()).decode("utf-8")
+                return render_template("download.html", base64Excel=base64Excel)
+                
+            except Exception as e:
+                return jsonify(str(e)), 400
+            
         @self.app.route("/codes/csv")
         def gerarCSV():
             try:

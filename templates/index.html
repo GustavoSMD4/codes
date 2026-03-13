@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>DB Senhas 4 Dígitos - API</title>
+
+<style>
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#0f172a;
+    color:#e5e7eb;
+    margin:40px;
+    line-height:1.6;
+}
+
+h1,h2,h3{
+    color:#38bdf8;
+}
+
+code{
+    background:#1e293b;
+    padding:4px 6px;
+    border-radius:4px;
+}
+
+pre{
+    background:#020617;
+    padding:15px;
+    border-radius:8px;
+    overflow:auto;
+}
+
+.box{
+    background:#020617;
+    padding:20px;
+    border-radius:10px;
+    margin-top:25px;
+}
+
+a{
+    color:#22d3ee;
+    text-decoration:none;
+}
+
+a:hover{
+    text-decoration:underline;
+}
+
+ul{
+    line-height:1.7;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🔐 DB com senhas de 4 dígitos (0-9) - API</h1>
+
+<p>
+API para análise e estatísticas de códigos numéricos de 4 dígitos.
+</p>
+
+<h2>🚀 Endpoints</h2>
+
+<div class="box">
+
+<h3>📊 Estatísticas gerais</h3>
+
+<p><b>GET</b> <code>/stats</code></p>
+
+<p>Retorna estatísticas gerais do banco:</p>
+
+<ul>
+<li>🔢 Total de senhas</li>
+<li>🥇 Código mais usado</li>
+<li>🥄 Código menos usado</li>
+</ul>
+
+<p>Exemplo:</p>
+
+<a href="https://gustavosmd4codes.pythonanywhere.com/stats" target="_blank">
+https://gustavosmd4codes.pythonanywhere.com/stats
+</a>
+
+</div>
+
+<div class="box">
+
+<h3>📄 Listar todos os códigos</h3>
+
+<p><b>GET</b> <code>/codes</code></p>
+
+<a href="https://gustavosmd4codes.pythonanywhere.com/codes" target="_blank">
+https://gustavosmd4codes.pythonanywhere.com/codes
+</a>
+
+</div>
+
+<div class="box">
+
+<h3>🥇 Listar primeiros códigos</h3>
+
+<p><b>GET</b> <code>/codes/first/&lt;quantidade&gt;</code></p>
+
+<a href="https://gustavosmd4codes.pythonanywhere.com/codes/first/10" target="_blank">
+https://gustavosmd4codes.pythonanywhere.com/codes/first/10
+</a>
+
+</div>
+
+<div class="box">
+
+<h3>🏁 Listar últimos códigos</h3>
+
+<p><b>GET</b> <code>/codes/last/&lt;quantidade&gt;</code></p>
+
+<a href="https://gustavosmd4codes.pythonanywhere.com/codes/last/10" target="_blank">
+https://gustavosmd4codes.pythonanywhere.com/codes/last/10
+</a>
+
+</div>
+
+<div class="box">
+
+<h3>🔍 Verificar posição de um código</h3>
+
+<p><b>GET</b> <code>/code/verify/&lt;code&gt;</code></p>
+
+<a href="https://gustavosmd4codes.pythonanywhere.com/code/verify/1234" target="_blank">
+https://gustavosmd4codes.pythonanywhere.com/code/verify/1234
+</a>
+
+</div>
+
+<div class="box">
+
+<h3>🏆 Sugerir código seguro ou comum</h3>
+
+<p><b>GET</b> <code>/code/suggest?safe=&lt;True/False&gt;</code></p>
+
+<p>Parâmetros:</p>
+
+<ul>
+<li><b>safe=True</b> → código menos comum (mais seguro)</li>
+<li><b>safe=False</b> → código mais comum</li>
+</ul>
+
+<a href="https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True" target="_blank">
+https://gustavosmd4codes.pythonanywhere.com/code/suggest?safe=True
+</a>
+
+</div>
+
+<div class="box">
+
+<h3>📊 Gerar planilha Excel por prefixo</h3>
+
+<p><b>GET</b> <code>/codes/planilha/&lt;digits&gt;</code></p>
+
+<ul>
+<li>digits aceita valores: <b>1, 2 ou 3</b></li>
+<li>Retorna prefixos únicos</li>
+</ul>
+
+<a href="https://gustavosmd4codes.pythonanywhere.com/codes/planilha/3" target="_blank">
+https://gustavosmd4codes.pythonanywhere.com/codes/planilha/3
+</a>
+
+</div>
+
+<div class="box">
+
+<h3>📄 CSV completo</h3>
+
+<p><b>GET</b> <code>/codes/csv</code></p>
+
+<p>
+Retorna download automático do CSV contendo todos os códigos.
+</p>
+
+<a href="https://gustavosmd4codes.pythonanywhere.com/codes/csv" target="_blank">
+https://gustavosmd4codes.pythonanywhere.com/codes/csv
+</a>
+
+</div>
+
+<div class="box">
+
+<h3>🧠 Heatmap de dígitos por posição</h3>
+
+<p><b>GET</b> <code>/codes/stats/&lt;limit&gt;</code></p>
+
+<p>Retorna visualização HTML com:</p>
+
+<ul>
+<li>🔥 Heatmap de frequência</li>
+<li>📈 Porcentagens por posição</li>
+<li>🥇 Dígito mais frequente</li>
+<li>📊 Estatísticas gerais</li>
+</ul>
+
+<a href="https://gustavosmd4codes.pythonanywhere.com/codes/stats/1000" target="_blank">
+https://gustavosmd4codes.pythonanywhere.com/codes/stats/1000
+</a>
+
+</div>
+
+<div class="box">
+
+<h3>🔥 Heatmap por intervalo</h3>
+
+<p><b>GET</b> <code>/codes/stats/between/&lt;start&gt;/&lt;end&gt;</code></p>
+
+<ul>
+<li>start → código inicial</li>
+<li>end → código final</li>
+</ul>
+
+<p>Regras:</p>
+
+<ul>
+<li>start deve ser ≤ end</li>
+<li>caso contrário retorna erro 400</li>
+</ul>
+
+<a href="https://gustavosmd4codes.pythonanywhere.com/codes/stats/between/1000/2000" target="_blank">
+https://gustavosmd4codes.pythonanywhere.com/codes/stats/between/1000/2000
+</a>
+
+</div>
+
+</body>
+</html>

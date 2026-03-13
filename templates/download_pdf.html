@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Download do Boleto</title>
+    <script type="text/javascript">
+        window.onload = function () {
+            const base64Pdf = "{{ pdfBase64 }}";
+
+            const byteCharacters = atob(base64Pdf);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'boleto.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+    </script>
+</head>
+<body>
+</body>
+</html>
